@@ -115,12 +115,12 @@ func main() {
 		return
 	}
 
+	einterfaces.RegisterLdapInterface(ldap.NewLdapInterface())
+
 	if flagRunCmds {
 		runCmds()
 	} else {
 		api.StartServer()
-
-		einterfaces.RegisterLdapInterface(ldap.NewLdapInterface())
 
 		// If we allow testing then listen for manual testing URL hits
 		if utils.Cfg.ServiceSettings.EnableTesting {
