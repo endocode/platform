@@ -175,7 +175,6 @@ export default class AdminSidebar extends React.Component {
     }
 
     render() {
-        let ldapSettings = null;
         let complianceSettings = null;
 
         let license = null;
@@ -183,20 +182,6 @@ export default class AdminSidebar extends React.Component {
 
         if (window.mm_config.BuildEnterpriseReady === 'true') {
             if (window.mm_license.IsLicensed === 'true') {
-                if (global.window.mm_license.LDAP === 'true') {
-                    ldapSettings = (
-                        <AdminSidebarSection
-                            name='ldap'
-                            title={
-                                <FormattedMessage
-                                    id='admin.sidebar.ldap'
-                                    defaultMessage='LDAP'
-                                />
-                            }
-                        />
-                    );
-                }
-
                 if (global.window.mm_license.Compliance === 'true') {
                     complianceSettings = (
                         <AdminSidebarSection
@@ -376,7 +361,15 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {ldapSettings}
+                                <AdminSidebarSection
+                                    name='ldap'
+                                    title={
+                                        <FormattedMessage
+                                             id='admin.sidebar.ldap'
+                                             defaultMessage='LDAP'
+                                        />
+                                    }
+                                />
                             </AdminSidebarSection>
                             <AdminSidebarSection
                                 name='security'

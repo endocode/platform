@@ -23,6 +23,7 @@ import (
 	l4g "github.com/alecthomas/log4go"
 	"github.com/mattermost/platform/api"
 	"github.com/mattermost/platform/einterfaces"
+	"github.com/mattermost/platform/ldap"
 	"github.com/mattermost/platform/manualtesting"
 	"github.com/mattermost/platform/model"
 	"github.com/mattermost/platform/store"
@@ -118,6 +119,8 @@ func main() {
 		runCmds()
 	} else {
 		api.StartServer()
+
+		einterfaces.RegisterLdapInterface(ldap.NewLdapInterface())
 
 		// If we allow testing then listen for manual testing URL hits
 		if utils.Cfg.ServiceSettings.EnableTesting {
