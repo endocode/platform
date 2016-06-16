@@ -187,8 +187,23 @@ func (lp *LDAPClient) CheckPassword(id string, password string) *model.AppError 
 
 func (lp *LDAPClient) SwitchToLdap(userId, ldapId, ldapPassword string) *model.AppError {
 	// called from api/user.go:emailToLdap
-	// not implemented yet
 	l4g.Debug("Started SwitchToLdap")
+
+	conn, _, ldapUser, err := lp.getUserByUID(ldapId)
+
+	if err != nil {
+		return model.NewLocAppError("ldap.SwitchToLdap", "Cannot get user from LDAP", nil, "")
+	}
+
+	defer conn.Close()
+
+	err = lp.CheckPassword(ldapId, ldapPassword)
+	if err != nil {
+		return err
+	}
+	if result := <-api.Srv.Store.User().UpdateAuthData(userId, model.USER_AUTH_SERVICE_LDAP, ldapUser.AuthData, ldapUser.Email); result.Err != nil {
+		return model.NewLocAppError("ldap.SwitchToLdap", "ent.ldap.do_login.unable_to_create_user.app_error", nil, result.Err.Error())
+	}
 	return nil
 }
 
