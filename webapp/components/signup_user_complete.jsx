@@ -609,7 +609,7 @@ export default class SignupUserComplete extends React.Component {
         }
 
         let ldapSignup;
-        if (global.window.mm_config.EnableLdap === 'true' && global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.LDAP) {
+        if (global.window.mm_config.EnableLdap === 'true') {
             ldapSignup = (
                 <div className='inner__content'>
                     <h5>
